@@ -35,32 +35,25 @@ package ensemble;
 import ensemble.control.Popover;
 import ensemble.control.SearchBox;
 import ensemble.search.DocumentType;
-import ensemble.search.IndexSearcher;
 import ensemble.search.SearchResult;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.util.Duration;
-import org.apache.lucene.queryParser.ParseException;
-
-
 /**
  * Implementation of popover to show search results
  */
 public class SearchPopover extends Popover {
     private final SearchBox searchBox;
     private final PageBrowser pageBrowser;
-    private IndexSearcher indexSearcher;
     private Tooltip searchErrorTooltip = null;
     private Timeline searchErrorTooltipHidder = null;
     private SearchResultPopoverList searchResultPopoverList;
@@ -111,10 +104,6 @@ public class SearchPopover extends Popover {
         boolean haveResults = false;
         Map<DocumentType, List<SearchResult>> results = null;
         try {
-            if (indexSearcher == null) indexSearcher = new IndexSearcher();
-            results = indexSearcher.search(
-                    searchBox.getText() + (searchBox.getText().matches("\\w+") ? "*" : "")
-            );
             // check if we have any results
             for (List<SearchResult> categoryResults: results.values()) {
                 if (categoryResults.size() > 0) {
@@ -122,7 +111,7 @@ public class SearchPopover extends Popover {
                     break;
                 }
             }
-        } catch (ParseException e) {
+        } catch (Exception e) {
             showError(e.getMessage().substring("Cannot parse ".length()));
         }
         if (haveResults) {

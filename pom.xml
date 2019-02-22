@@ -25,7 +25,7 @@
     </properties>
 
     <dependencies>
-        <dependency>
+       <!-- <dependency>
             <groupId>org.apache.lucene</groupId>
             <artifactId>lucene-analyzers</artifactId>
             <version>3.6.2</version>
@@ -83,7 +83,7 @@
             <groupId>org.apache.lucene</groupId>
             <artifactId>lucene-grouping</artifactId>
             <version>3.6.2</version>
-        </dependency>
+        </dependency>-->
     </dependencies>
 
 </project>
